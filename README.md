@@ -137,6 +137,8 @@ bash wsl-nas/scripts/linux/04_health_check.sh
 | Медленная запись мелких файлов | Переместите данные из `/mnt/c/` в `/data` (ext4) |
 | IP WSL меняется после ребута | Задача `WSL-NAS-PortProxy` обновляет `portproxy` автоматически при входе |
 
+Полный список: [docs/troubleshooting.md](docs/networking.md#🚦-устранение-неполадок)
+
 ---
 
 ## 📦 Структура репозитория
