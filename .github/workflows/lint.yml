@@ -1,0 +1,53 @@
+# .github/workflows/lint.yml
+name: 🧹 Lint & Code Quality
+
+on:
+  push:
+    branches: [ main, develop ]
+    # Опционально: запускать только при изменении скриптов (экономит минуты CI)
+    # paths:
+    #   - 'scripts/linux/**'
+    #   - 'scripts/windows/**'
+  pull_request:
+    branches: [ main, develop ]
+    # paths:
+    #   - 'scripts/linux/**'
+    #   - 'scripts/windows/**'
+
+jobs:
+  shellcheck:
+    name: 🔍 ShellCheck (Linux/WSL Scripts)
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Install ShellCheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: 🐚 Run ShellCheck
+        run: |
+          # Проверяем все .sh файлы. --severity=error ловит только критичные баги, 
+          # игнорируя стилистические предупреждения.
+          shellcheck --severity=error --external-sources scripts/linux/*.sh
+          echo "✅ ShellCheck passed."
+
+  psscriptanalyzer:
+    name: ⚡ PSScriptAnalyzer (Windows Scripts)
+    runs-on: windows-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Install PSScriptAnalyzer
+        run: Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+
+      - name: 🪟 Run PSScriptAnalyzer
+        run: |
+          $results = Invoke-ScriptAnalyzer -Path scripts/windows/ -Recurse -Severity @('Error', 'Warning')
+          if ($results) {
+              Write-Host "❌ Found $($results.Count) issues:" -ForegroundColor Red
+              $results | Format-Table -AutoSize
+              exit 1
+          }
+          Write-Host "✅ PSScriptAnalyzer passed." -ForegroundColor Green
