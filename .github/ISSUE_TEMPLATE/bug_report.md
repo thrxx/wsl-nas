@@ -1,11 +1,3 @@
----
-name: 🐛 Баг-репорт
-description: Создайте отчёт, чтобы помочь улучшить проект WSL-NAS
-title: "[Bug]: "
-labels: ["bug", "triage"]
-assignees: ""
----
-
 ## 📝 Описание проблемы
 Кратко и чётко опишите, что пошло не так.
 
@@ -75,4 +67,3 @@ Test-NetConnection -ComputerName localhost -Port 445
 
 ## 💡 Дополнительный контекст
 Любая другая информация: изменённые параметры `smb.conf`/`wsl.conf`, особенности сети, клиенты подключения (Win Explorer, macOS, Smart TV, Linux), частота воспроизведения и т.д.
-```
