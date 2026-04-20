@@ -44,7 +44,7 @@ jobs:
 
       - name: 🪟 Run PSScriptAnalyzer
         run: |
-          $results = Invoke-ScriptAnalyzer -Path scripts/windows/ -Recurse -Severity @('Error', 'Warning')
+          $results = Invoke-ScriptAnalyzer -Path scripts/windows/ -Recurse -Settings PSScriptAnalyzerSettings.psd1 -Severity @('Error', 'Warning')
           if ($results) {
               Write-Host "❌ Found $($results.Count) issues:" -ForegroundColor Red
               $results | Format-Table -AutoSize
